@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-void text-ink font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(34, 197, 94, 0.08), transparent),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(34, 197, 94, 0.012) 2px,
+        rgba(34, 197, 94, 0.012) 4px
+      );
+  }
+
+  ::selection {
+    background: rgba(34, 197, 94, 0.35);
+  }
+}
+
+@layer components {
+  .term-card {
+    @apply relative rounded-lg border border-line bg-panel/90 backdrop-blur-sm;
+  }
+
+  .term-card-glow {
+    @apply term-card shadow-glow;
+  }
+
+  .term-label {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-mute;
+  }
+
+  .num {
+    @apply font-mono tabular-nums;
+  }
+
+  .scanline::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 rounded-lg;
+    background: linear-gradient(180deg, transparent 0%, rgba(74, 222, 128, 0.04) 50%, transparent 100%);
+    background-size: 100% 200%;
+    animation: scan 6s linear infinite;
+  }
+
+  .blink {
+    animation: blink 1.1s step-end infinite;
+  }
+}
+
+@keyframes scan {
+  0% {
+    background-position: 0 -200%;
+  }
+  100% {
+    background-position: 0 200%;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 细滚动条，终端质感 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c2e20;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
