@@ -2,7 +2,8 @@
 FROM node:20-alpine AS web-builder
 WORKDIR /build/web
 COPY web/package.json web/package-lock.json ./
-RUN npm ci --no-audit --no-fund
+RUN npm config set registry https://mirrors.cloud.tencent.com/npm/ \
+    && npm ci --no-audit --no-fund
 COPY web/ ./
 RUN npm run build
 
@@ -11,7 +12,9 @@ FROM python:3.12-slim AS runtime
 LABEL maintainer="arnoluo" description="AI Ledger - personal cashflow terminal with MCP"
 
 ENV PYTHONUNBUFFERED=1 \
-    DB_PATH=/data/ledger.db
+    DB_PATH=/data/ledger.db \
+    PIP_INDEX_URL=https://mirrors.cloud.tencent.com/pypi/simple \
+    PIP_TRUSTED_HOST=mirrors.cloud.tencent.com
 
 WORKDIR /app
 COPY requirements.txt ./
